@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const Note = require('./models/note');
 
 let notes = [
   {
@@ -30,28 +31,6 @@ const requestLogger = (request, response, next) => {
 app.use(express.json());
 app.use(requestLogger);
 app.use(express.static('dist'));
-const mongoose = require('mongoose');
-
-const password = process.argv[2];
-const url = `mongodb+srv://fullstack:${password}@cluster0.se5we2g.mongodb.net/noteApp?appName=Cluster0`;
-
-mongoose.set('strictQuery', false);
-mongoose.connect(url, { family: 4 });
-
-const noteSchema = new mongoose.Schema({
-  content: String,
-  important: Boolean,
-});
-
-noteSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id;
-    delete returnedObject.__v;
-  },
-});
-
-const Note = mongoose.model('Note', noteSchema);
 
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>');
