@@ -1,7 +1,8 @@
 require('dotenv').config();
 const express = require('express');
-const app = express();
 const Note = require('./models/note');
+
+const app = express();
 
 let notes = [
   {
@@ -71,7 +72,7 @@ app.post('/api/notes', (request, response) => {
   });
 
   note.save().then((savedNote) => {
-    response.json(note);
+    response.json(savedNote);
   });
 });
 
