@@ -1,8 +1,8 @@
 POST http://localhost:3001/api/notes
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNoZXdhcmEiLCJpZCI6IjZhYTEzZGM2ODZkMzc3Yjc1MjExMGYyOSIsImlhdCI6MTc4ODk3NzI0Nn0.WwXP0AkRj0-3tqx1eqZ2LsoeR7jLsJqijDYBh1naeYA
 
 {
-  "content": "VSCode rest client is pretty handy",
-  "important": true,
-  "userId": "6aa13dc686d377b752110f29"
+  "content": "Single page apps use token based auth",
+  "important": false
 }
