@@ -1,6 +1,7 @@
 const middleware = require('../utils/middleware');
 const notesRouter = require('express').Router();
 const Note = require('../models/note');
+const User = require('../models/user');
 
 notesRouter.get('/', async (request, response) => {
   const notes = await Note.find({}).populate('user', { username: 1, name: 1 });
@@ -40,7 +41,20 @@ notesRouter.post('/', middleware.userExtractor, async (request, response) => {
 });
 
 notesRouter.delete('/:id', async (request, response) => {
-  await Note.findByIdAndDelete(request.params.id);
+  const noteToDeleteId = request.params.id;
+
+  const noteToDelete = await Note.findById(noteToDeleteId);
+  if (!noteToDelete)
+    return response.status(404).json({ error: 'note does not exist' });
+
+  await Note.findByIdAndDelete(noteToDeleteId);
+
+  const noteOwner = await User.findById(noteToDelete.user);
+  noteOwner.notes = noteOwner.notes.filter(
+    (id) => id.toString() !== noteToDeleteId,
+  );
+  await noteOwner.save();
+
   response.status(204).end();
 });
 
