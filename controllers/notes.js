@@ -67,8 +67,8 @@ notesRouter.put('/:id', async (request, response) => {
 
   const { content, important } = request.body;
 
-  if (content) note.content = content;
-  if (important) note.important = important;
+  note.content = content;
+  note.important = important;
 
   const updatedNote = await note.save();
   response.json(updatedNote);
