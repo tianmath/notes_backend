@@ -37,7 +37,12 @@ notesRouter.post('/', middleware.userExtractor, async (request, response) => {
   user.notes = user.notes.concat(savedNote._id);
   await user.save();
 
-  response.status(201).json(savedNote);
+  const noteToSend = await Note.findById(savedNote._id).populate('user', {
+    username: 1,
+    name: 1,
+  });
+
+  response.status(201).json(noteToSend);
 });
 
 notesRouter.delete('/:id', async (request, response) => {
